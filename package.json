@@ -1,0 +1,36 @@
+{
+  "name": "reactpractise",
+  "version": "1.0.0",
+  "description": "React Project",
+  "main": "App.js",
+  "scripts": {
+    "test": "jest",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aruntejadevasani/react-project.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Arun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aruntejadevasani/react-project/issues"
+  },
+  "homepage": "https://github.com/aruntejadevasani/react-project#readme",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "browsersList": [
+    "last 2 versions"
+  ]
+}
