@@ -1,7 +1,9 @@
-import RestroCard from './RestroCard';
+import useOnlineStatus from '../utils/useOnlineStatus';
+import RestroCard, { withPromoted } from './RestroCard';
 import Shimmer from './Shimmer';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import UserContext from '../utils/UserContext';
 
 const BodyComponent = () => {
 	// State Variable
@@ -9,6 +11,8 @@ const BodyComponent = () => {
 	let [filteredRest, setFilteredRest] = useState([]);
 
 	let [searchText, setSearchText] = useState('');
+
+	const RestroCardPromoted = withPromoted(RestroCard);
 
 	useEffect(() => {
 		fetchData();
@@ -30,22 +34,27 @@ const BodyComponent = () => {
 		);
 	};
 
+	const onlineStatus = useOnlineStatus();
+	if (!onlineStatus) return <h1>Please check you internet connection!!!</h1>;
+
+	const { loggedInUser, setUserInfo } = useContext(UserContext);
+
 	return tempList.length === 0 ? (
 		<Shimmer />
 	) : (
-		<div className="body">
-			<div className="filter-div">
-				<div className="search">
+		<div className="">
+			<div className="flex">
+				<div className="m-4 p-4">
 					<input
 						type="text"
-						className="search-box"
+						className="border border-solid border-black"
 						value={searchText}
 						onChange={(e) => {
 							setSearchText(e.target.value);
 						}}
 					/>
 					<button
-						className="search-btn"
+						className="px-4 py-2 bg-green-100 m-4 rounded-lg"
 						onClick={() => {
 							setFilteredRest(
 								tempList.filter((res) =>
@@ -59,9 +68,9 @@ const BodyComponent = () => {
 						Search
 					</button>
 				</div>
-				<div className="filter">
+				<div className="m-4 p-4 flex items-center">
 					<button
-						className="filter-btn"
+						className="px-4 py-2 bg-gray-100 rounded-lg"
 						onClick={() => {
 							setFilteredRest(
 								tempList.filter(
@@ -73,13 +82,27 @@ const BodyComponent = () => {
 						Top Rated Restros
 					</button>
 				</div>
+				<div className="m-4 p-4 flex items-center">
+					<label className="p-1">User Name </label>
+					<input
+						className="border border-black p-1"
+						value={loggedInUser}
+						onChange={(e) => setUserInfo(e.target.value)}
+					/>
+				</div>
 			</div>
-			<div className="restro-container">
-				{filteredRest.map((item) => (
-					<Link key={item.info.id} to={'/restro/' + item.info.id}>
-						<RestroCard resData={item} />
-					</Link>
-				))}
+			<div className="flex">
+				<div className="flex flex-wrap justify-center">
+					{filteredRest.map((item) => (
+						<Link key={item.info.id} to={'/restro/' + item.info.id}>
+							{item.info.promoted ? (
+								<RestroCardPromoted resData={item} />
+							) : (
+								<RestroCard resData={item} />
+							)}
+						</Link>
+					))}
+				</div>
 			</div>
 		</div>
 	);
