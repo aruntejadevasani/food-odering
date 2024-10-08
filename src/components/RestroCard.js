@@ -6,7 +6,10 @@ const RestroCard = (props) => {
 		resData?.info;
 	const { slaString } = resData?.info?.sla;
 	return (
-		<div className="m-4 p-4 w-52 rounded-xl bg-gray-100 hover:bg-gray-300">
+		<div
+			data-testid="resCard"
+			className="m-4 p-4 w-52 rounded-xl bg-gray-100 hover:bg-gray-300"
+		>
 			<img
 				className="rounded-lg"
 				alt="restro-logo"
